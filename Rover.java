@@ -9,12 +9,18 @@ public class Rover
 {
     // fields
     String name;
+    int numPics;
     int x;
     int y;
     int dir; // 0=North, 1=East, 2=South, 3=West
+    String nesw;
     
     
     // constructor(s)
+    public Rover() {
+        
+    }
+    
     public Rover(String name)
     {
         this.name = name;
@@ -23,28 +29,63 @@ public class Rover
         this.dir = 0;
     }
     
-    
     // methods - stuff the Rover can do
-    public void move()
-    {
-        if (dir == 0)
-        {
-            y += 1;
-        }
-        else if (dir == 1)
-        {
-            x += 1;
-        }
-        else if (dir == 2)
-        {
-            y -= 1;
-        }
-        else 
-        {
-            x -= 1;
-        }
+    public void takePic() {
+        this.numPics++;
         
-        System.out.println(name + " moved in direction " + dir);
+        System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + nesw + ".");
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void dir() {
+        String[] directionArray = {"North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"};
+        this.nesw = directionArray[this.dir];
+    }
+    
+    public void move(int n)
+    {
+        if (dir == 0) //north
+        {
+            y += n;
+        }
+        else if (dir == 1) //northeast
+        {
+            y += n;
+        }
+        else if (dir == 2) //east
+        {
+            //x += n;
+            y -= n;
+        }
+        else if (dir == 3) //southeast
+        {
+            x -= n;
+        }
+        else if (dir == 4) //south
+        {
+            //y -= n;
+            x += n;
+        }
+        else if (dir == 5) //southwest
+        {
+            y -= n;
+        }
+        else if (dir == 6) //west
+        {
+            //x += n;
+            x -= n;
+        }
+        else // northwest
+        {
+            x -= n;
+        }
+
+        
+        dir();
+        System.out.println(name + " moved " + n + " units in direction " + nesw + ".");
     }
     
     public void rotateLeft() 
@@ -53,26 +94,26 @@ public class Rover
         
         if (dir < 0)
         {
-            dir = 3;
+            dir = 8;
         }
-        
-        System.out.println(name + " turned to the left");        
+        dir();
+        System.out.println(name + " turned to the left. (Facing " + nesw + ")");        
     }
     
     public void rotateRight()
     {
         dir += 1;
         
-        if (dir == 4)
+        if (dir == 9)
         {
             dir = 0;
         }
-        
-        System.out.println(name + " turned to the right");        
+        dir();
+        System.out.println(name + " turned to the right. (Facing " + nesw + ")");        
     }
 
     public String toString() 
     {
-        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", dir=" + dir + "]";
+        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", dir=" + dir + ", picsTaken=" +  numPics + "]\n";
     }
 }
