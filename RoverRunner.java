@@ -38,5 +38,11 @@ public class RoverRunner
         r3.move(4);
         r3.takePic();
         System.out.println(r3);
+        
+        r2.kill(r3);
+        r2.kill(r3);
+        r3.move(3);
+        r3.kill(r2);
+        System.out.println(r3);
     }
 }
