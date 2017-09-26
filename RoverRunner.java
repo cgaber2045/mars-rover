@@ -18,13 +18,13 @@ public class RoverRunner
         System.out.println(r3);
         
         r1.move(1);
-        r1.rotateRight();
+        r1.rotateRight(3);
         System.out.println(r1);
         
-        r2.rotateRight();
-        r2.rotateRight();
+        r2.rotateRight(1);
+        r2.rotateRight(5);
         r2.move(2);
-        r2.rotateLeft();
+        r2.rotateLeft(2);
         r2.move(5);
         System.out.println(r2);
         
@@ -33,7 +33,7 @@ public class RoverRunner
         r3.setName("Jake");
         r3.move(1);
         r3.takePic();
-        r3.rotateRight();
+        r3.rotateRight(1);
         r3.takePic();
         r3.move(4);
         r3.takePic();

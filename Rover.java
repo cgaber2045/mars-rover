@@ -103,40 +103,40 @@ public class Rover
             
         else 
         {
-                System.out.println("ERROR: " + name + " is dead!");
+                System.out.println("ERROR: " + name + " cannot move while dead!");
         }
     }
     
-    public void rotateLeft() 
+    public void rotateLeft(int n) 
     {
         if(isAlive) {
-            dir -= 1;
+            dir -= n;
             
             if (dir < 0)
             {
                 dir = 8;
             }
             dir();
-            System.out.println(name + " turned to the left. (Facing " + nesw + ")");   
+            System.out.println(name + " turned to the left " + n + " time(s) (Facing " + nesw + ")");   
         } else {
-            System.out.println("ERROR: " + name + " is dead!");
+            System.out.println("ERROR: " + name + " cannot rotate while dead!");
         }
     }
     
-    public void rotateRight()
+    public void rotateRight(int n)
     {
         if(isAlive) {
-            dir += 1;
+            dir += n;
             
             if (dir == 9)
             {
                 dir = 0;
             }
             dir();
-            System.out.println(name + " turned to the right. (Facing " + nesw + ")"); 
+            System.out.println(name + " turned to the right " + n + " time(s). (Facing " + nesw + ")"); 
         }
         else {
-            System.out.println("ERROR: " + name + " is dead!");
+            System.out.println("ERROR: " + name + " cannot rotate while dead!");
         }
     }
     
