@@ -49,11 +49,7 @@ public class Rover
         this.name = name;
     }
     
-    public void dir() {
-        String[] directionArray = {"North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"};
-        this.nesw = directionArray[this.dir];
-    }
-    
+
     public void move(double n)
     {
         if(isAlive) {
@@ -93,7 +89,7 @@ public class Rover
                 x -= n*root;
                 y += n*root;
             }
-            dir();
+            getDirectionName();
             
             if (dir % 2 == 0) {
             System.out.println(name + " moved " + n + " units in direction " + nesw + ".");
@@ -107,36 +103,41 @@ public class Rover
         }
     }
     
-    public void rotateLeft(int n) 
+    private void getDirectionName() {
+        String[] directionArray = {"North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"};
+        this.nesw = directionArray[this.dir];
+    }
+    
+    public void rotate(int n)
     {
         if(isAlive) {
-            dir -= n;
+            this.dir += n;
             
-            if (dir < 0)
-            {
-                dir = 8;
+            if (this.dir >= 8) {
+                this.dir = (dir % 8);
+                getDirectionName();
+                System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+            } else if (this.dir < 0) {
+                this.dir = 8 - (Math.abs(dir) % 8);
+                getDirectionName();
+                System.out.println(name + " turned to the left " + Math.abs(n) + " to face " + nesw + "."); 
+            } else {
+                getDirectionName();
+                System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
             }
-            dir();
-            System.out.println(name + " turned to the left " + n + " time(s) (Facing " + nesw + ")");   
-        } else {
+        }
+        else {
             System.out.println("ERROR: " + name + " cannot rotate while dead!");
         }
     }
     
-    public void rotateRight(int n)
-    {
+    public void teleport (int x, int y) {
         if(isAlive) {
-            dir += n;
-            
-            if (dir == 9)
-            {
-                dir = 0;
-            }
-            dir();
-            System.out.println(name + " turned to the right " + n + " time(s). (Facing " + nesw + ")"); 
-        }
-        else {
-            System.out.println("ERROR: " + name + " cannot rotate while dead!");
+        this.x = x;
+        this.y = y;
+        System.out.println(name + " has teleported to " + x + ", " + y + ".");
+        } else {
+        System.out.println("ERROR: " + name + " cannot teleport while dead!");    
         }
     }
     

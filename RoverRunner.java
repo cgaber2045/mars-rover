@@ -16,15 +16,16 @@ public class RoverRunner
         System.out.println(r1);
         System.out.println(r2);
         System.out.println(r3);
-        
+
+        r1.rotate(3);
         r1.move(1);
-        r1.rotateRight(3);
+        r1.rotate(3);
         System.out.println(r1);
         
-        r2.rotateRight(1);
-        r2.rotateRight(5);
+        r2.rotate(1);
+        r2.rotate(5);
         r2.move(2);
-        r2.rotateLeft(2);
+        r2.rotate(2);
         r2.move(5);
         System.out.println(r2);
         
@@ -33,7 +34,7 @@ public class RoverRunner
         r3.setName("Jake");
         r3.move(1);
         r3.takePic();
-        r3.rotateRight(1);
+        r3.rotate(1);
         r3.takePic();
         r3.move(4);
         r3.takePic();
@@ -44,5 +45,7 @@ public class RoverRunner
         r3.move(3);
         r3.kill(r2);
         System.out.println(r3);
+        r1.teleport(0,0);
+        System.out.println(r1);
     }
 }
