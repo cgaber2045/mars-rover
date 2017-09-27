@@ -40,10 +40,17 @@ public class RoverRunner
         r3.takePic();
         System.out.println(r3);
         
-        r2.kill(r3);
-        r2.kill(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        r2.attack(r3);
+        System.out.println(r2);
+        
         r3.move(3);
-        r3.kill(r2);
+        r3.attack(r2);
         System.out.println(r3);
         r1.teleport(0,0);
         System.out.println(r1);
