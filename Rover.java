@@ -8,6 +8,7 @@
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Scanner;
 
 public class Rover
 {
@@ -54,6 +55,13 @@ public class Rover
     }
     
     // methods - stuff the Rover can do
+    public void scanner() {
+        Scanner scanner=new Scanner(System.in);
+        while (!scanner.nextLine().equals("quit")) {
+            scanner.next();
+        }
+    }
+
     private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
      
@@ -61,7 +69,23 @@ public class Rover
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-
+    
+    public void transmitPictures() {
+        levelUp(100*numPics);
+        this.numPics = 0;
+    }
+    
+    public void moveTo(int x, int y) {
+            this.dir = 0;
+            move(y - this.y);
+            rotate(2);
+            move(x - this.x);
+    }
+    
+    public void goHome() {
+        moveTo(0, 0);
+    }
+    
     public void spendEnergy() {
         energy -= 5;
         if (energy <= 0) {
@@ -110,8 +134,7 @@ public class Rover
         this.name = name;
     }
     
-    public void move(double n)
-    {
+    public void move(double n) {
         if(hasPower) {
             if(isAlive) {
                 spendEnergy();
@@ -170,8 +193,7 @@ public class Rover
         this.nesw = directionArray[this.dir];
     }
     
-    public void rotate(int n)
-    {
+    public void rotate(int n) {
         if(hasPower){
             if(isAlive) {
                 this.dir += n;
@@ -211,8 +233,7 @@ public class Rover
         } else System.out.println(this.name + " has no power!");
     }
     
-    public void attack(Rover other) 
-    {
+    public void attack(Rover other) {
         spendEnergy();
         if(hasPower) {
             if(this.isAlive && other.isAlive == false) {
@@ -226,15 +247,14 @@ public class Rover
                 other.health();
                 this.levelUp(10 * damage); 
             }
-            else{
+            else {
                 other.health-= this.damage;
                 System.out.println(this.name + " has killed " + other.name + " from beyond the grave!");
             }
         } else System.out.println(this.name + " has no power!");
     }
     
-    public String toString() 
-    {
+    public String toString() {
         return "Rover[Name: " + name + ", x: " + round(x, 2) + ", y: " + round(y, 2) + ", dir: " + dir + ", picsTaken: " +  numPics + ", isAlive: " + isAlive + 
         "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/100]\n";
     }

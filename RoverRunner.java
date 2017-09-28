@@ -53,6 +53,9 @@ public class RoverRunner
         r3.attack(r2);
         System.out.println(r3);
         r1.teleport(0,0);
+        r1.moveTo(-3,4);
+        System.out.println(r1);
+        r1.goHome();
         System.out.println(r1);
     }
 }
