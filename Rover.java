@@ -19,12 +19,14 @@ public class Rover
     private int dir; // 0=North, 1=East, 2=South, 3=West
     private String nesw;
     private boolean isAlive;
+    private boolean hasPower;
     private double root = Math.sqrt(2);
     private int health;
     private int maxhealth;
     private int damage;
     private int level;
     private int exp;
+    private int energy;
     
     // constructor(s)
     public Rover() {
@@ -34,6 +36,8 @@ public class Rover
         this.isAlive = true; 
         this.health = 100;
         this.damage = 10;
+        this.energy = 100;
+        this.hasPower = true;
     }
     
     public Rover(String name)
@@ -45,6 +49,8 @@ public class Rover
         this.isAlive = true;
         this.health = 100;
         this.damage = 10;
+        this.energy = 100;
+        this.hasPower = true;
     }
     
     // methods - stuff the Rover can do
@@ -56,6 +62,14 @@ public class Rover
         return bd.doubleValue();
     }
 
+    public void spendEnergy() {
+        energy -= 5;
+        if (energy <= 0) {
+            energy = 0;
+            hasPower = false;
+        }
+    }
+    
     public void levelUp(int xp) {      
         if(isAlive) {
         this.exp += xp; 
@@ -80,13 +94,15 @@ public class Rover
     }
     
     public void takePic() {
-        if(isAlive) {
-            this.numPics++;
-            System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + nesw + ".");
-            levelUp(100);
-        } else {
-            System.out.println("ERROR: " + name + " is dead!");
-        }
+        if(hasPower) {
+            if(isAlive) {
+                this.numPics++;
+                System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + nesw + ".");
+                levelUp(100);
+            } else {
+                System.out.println("ERROR: " + name + " is dead!");
+            }
+    }
     }
     
     public void setName(String name) {
@@ -96,54 +112,57 @@ public class Rover
     
     public void move(double n)
     {
-        if(isAlive) {
-            if (dir == 0) //north
+        if(hasPower) {
+            if(isAlive) {
+                spendEnergy();
+                if (dir == 0) //north
+                {
+                    y += n;
+                }
+                else if (dir == 1) //northeast
+                {
+                    y += n*root;
+                    x += n*root;
+                }
+                else if (dir == 2) //east
+                {
+                    x += n;
+                }
+                else if (dir == 3) //southeast
+                {
+                    x += n*root;
+                    y -= n*root;
+                }
+                else if (dir == 4) //south
+                {
+                    y -= n;
+                }
+                else if (dir == 5) //southwest
+                {
+                    y -= n*root;
+                    x -= n*root;
+                }
+                else if (dir == 6) //west
+                {
+                    x -= n;
+                }
+                else // northwest
+                {
+                    x -= n*root;
+                    y += n*root;
+                }
+                getDirectionName();
+                levelUp(100);
+                if (dir % 2 == 0) {
+                System.out.println(name + " moved " + n + " units in direction " + nesw + ".");
+                } else 
+                    System.out.println(name + " moved " + (Double.toString(n*root)).substring(0,5) + " units in direction " + nesw + ".");
+                } 
+            else 
             {
-                y += n;
+                    System.out.println("ERROR: " + name + " cannot move while dead!");
             }
-            else if (dir == 1) //northeast
-            {
-                y += n*root;
-                x += n*root;
-            }
-            else if (dir == 2) //east
-            {
-                x += n;
-            }
-            else if (dir == 3) //southeast
-            {
-                x += n*root;
-                y -= n*root;
-            }
-            else if (dir == 4) //south
-            {
-                y -= n;
-            }
-            else if (dir == 5) //southwest
-            {
-                y -= n*root;
-                x -= n*root;
-            }
-            else if (dir == 6) //west
-            {
-                x -= n;
-            }
-            else // northwest
-            {
-                x -= n*root;
-                y += n*root;
-            }
-            getDirectionName();
-            levelUp(100);
-            if (dir % 2 == 0) {
-            System.out.println(name + " moved " + n + " units in direction " + nesw + ".");
-            } else 
-                System.out.println(name + " moved " + (Double.toString(n*root)).substring(0,5) + " units in direction " + nesw + ".");
-            } 
-        else 
-        {
-                System.out.println("ERROR: " + name + " cannot move while dead!");
-        }
+        } else System.out.println(this.name + " has no power!");
     }
     
     private void getDirectionName() {
@@ -153,61 +172,70 @@ public class Rover
     
     public void rotate(int n)
     {
-        if(isAlive) {
-            this.dir += n;
-            
-            if (this.dir >= 8) {
-                this.dir = (dir % 8);
-                getDirectionName();
-                System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
-            } else if (this.dir < 0) {
-                this.dir = 8 - (Math.abs(dir) % 8);
-                getDirectionName();
-                System.out.println(name + " turned to the left " + Math.abs(n) + " to face " + nesw + "."); 
-            } else {
-                getDirectionName();
-                System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+        if(hasPower){
+            if(isAlive) {
+                this.dir += n;
+                spendEnergy();
+                if (this.dir >= 8) {
+                    this.dir = (dir % 8);
+                    getDirectionName();
+                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+                } else if (this.dir < 0) {
+                    this.dir = 8 - (Math.abs(dir) % 8);
+                    getDirectionName();
+                    System.out.println(name + " turned to the left " + Math.abs(n) + " to face " + nesw + "."); 
+                } else {
+                    getDirectionName();
+                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+                }
+                levelUp(100); 
             }
-            levelUp(100); 
-        }
-        else {
-            System.out.println("ERROR: " + name + " cannot rotate while dead!");
-        }
+            else {
+                System.out.println("ERROR: " + name + " cannot rotate while dead!");
+            }
+    } else System.out.println(this.name + " has no power!");
     }
     
     public void teleport (int x, int y) {
-        if(isAlive) {
-        this.x = x;
-        this.y = y;
-        System.out.println(name + " has teleported to " + x + ", " + y + ".");
-        levelUp(200);
-        } else {
-        System.out.println("ERROR: " + name + " cannot teleport while dead!");    
-        }
+        spendEnergy();
+        if(hasPower) {
+            if(isAlive) {
+            this.x = x;
+            this.y = y;
+            System.out.println(name + " has teleported to " + x + ", " + y + ".");
+            levelUp(200);
+            spendEnergy();
+            } else {
+            System.out.println("ERROR: " + name + " cannot teleport while dead!");    
+            }
+        } else System.out.println(this.name + " has no power!");
     }
     
     public void attack(Rover other) 
     {
-        if(this.isAlive && other.isAlive == false) {
-            System.out.println("ERROR: " + this.name + " tried to kill " + other.name + ", but it is already dead.");
-        } else if (isAlive) {
-            other.health -= this.damage;
-            System.out.println(this.name + " has attacked " + other.name + " for " + damage + 
-            " damage.\n >" + other.name + " current health: " + other.health);
-            health();
-            other.health();
-            this.levelUp(10 * damage); 
-        }
-        else{
-            other.health-= this.damage;
-            System.out.println(this.name + " has killed " + other.name + " from beyond the grave!");
-        }
-        
+        spendEnergy();
+        if(hasPower) {
+            if(this.isAlive && other.isAlive == false) {
+                System.out.println("ERROR: " + this.name + " tried to kill " + other.name + ", but it is already dead.");
+            } else if (isAlive) {
+                spendEnergy();
+                other.health -= this.damage;
+                System.out.println(this.name + " has attacked " + other.name + " for " + damage + 
+                " damage.\n >" + other.name + " current health: " + other.health);
+                health();
+                other.health();
+                this.levelUp(10 * damage); 
+            }
+            else{
+                other.health-= this.damage;
+                System.out.println(this.name + " has killed " + other.name + " from beyond the grave!");
+            }
+        } else System.out.println(this.name + " has no power!");
     }
     
     public String toString() 
     {
-        return "Rover[name=" + name + ", x=" + round(x, 2) + ", y=" + round(y, 2) + ", dir=" + dir + ", picsTaken=" +  numPics + ", isAlive=" + isAlive + 
-        "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + "]\n";
+        return "Rover[Name: " + name + ", x: " + round(x, 2) + ", y: " + round(y, 2) + ", dir: " + dir + ", picsTaken: " +  numPics + ", isAlive: " + isAlive + 
+        "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/100]\n";
     }
 }
