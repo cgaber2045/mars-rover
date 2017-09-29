@@ -2,8 +2,8 @@
 /**
  * Write a description of class Rover here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Chris Gaber 
+ * @version September 30, 2017
  */
 
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ public class Rover
 {
     // fields
     private String name;
+    private String input;
     private int numPics;
     private double x;
     private double y;
@@ -55,13 +56,15 @@ public class Rover
     }
     
     // methods - stuff the Rover can do
+    /*
     public void scanner() {
-        Scanner scanner=new Scanner(System.in);
-        while (!scanner.nextLine().equals("quit")) {
-            scanner.next();
+        Scanner input=new Scanner(System.in);
+        while (!input.equals("quit")) {
+            input = input.nextLine();
         }
     }
-
+    */
+    
     private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
      
@@ -94,6 +97,14 @@ public class Rover
         }
     }
     
+    public void charge(int amps) {
+        if (!(energy > 100+(10*level)) && !((amps + energy) > 100+(10*level))) {
+            energy += amps;
+            System.out.println(name + " is charging for " + amps + " power!");
+            levelUp(2*amps);
+        } else System.out.println(name + " cannot charge past their limit of " + (100+(10*level)));
+    }
+    
     public void levelUp(int xp) {      
         if(isAlive) {
         this.exp += xp; 
@@ -120,9 +131,11 @@ public class Rover
     public void takePic() {
         if(hasPower) {
             if(isAlive) {
+                if (numPics <= 5) {
                 this.numPics++;
                 System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + nesw + ".");
                 levelUp(100);
+                } else  System.out.println(name + " has reached the picture limit!");
             } else {
                 System.out.println("ERROR: " + name + " is dead!");
             }
@@ -256,6 +269,6 @@ public class Rover
     
     public String toString() {
         return "Rover[Name: " + name + ", x: " + round(x, 2) + ", y: " + round(y, 2) + ", dir: " + dir + ", picsTaken: " +  numPics + ", isAlive: " + isAlive + 
-        "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/100]\n";
+        "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/" + (100+(10*level)) + "]\n";
     }
 }

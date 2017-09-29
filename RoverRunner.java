@@ -47,6 +47,7 @@ public class RoverRunner
         r2.attack(r3);
         r2.attack(r3);
         r2.attack(r3);
+        r2.charge(110);
         System.out.println(r2);
         
         r3.move(3);
