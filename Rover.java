@@ -79,7 +79,7 @@ public class Rover
     }
     
     public void moveTo(int x, int y) {
-            this.dir = 0;
+            rotate(-this.dir);
             move(y - this.y);
             rotate(2);
             move(x - this.x);
