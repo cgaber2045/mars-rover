@@ -267,6 +267,10 @@ public class Rover
         } else System.out.println(this.name + " has no power!");
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public String toString() {
         return "Rover[Name: " + name + ", x: " + round(x, 2) + ", y: " + round(y, 2) + ", dir: " + dir + ", picsTaken: " +  numPics + ", isAlive: " + isAlive + 
         "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/" + (100+(10*level)) + "]\n";
