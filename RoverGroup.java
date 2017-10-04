@@ -20,16 +20,14 @@ public class RoverGroup {
         rovers.add(rover);
     }
     
-    public Rover find(String query) {
-        
+    public Rover find(String query) { 
         for (Rover r : rovers) {
             String name = r.getName();
             
-            if (name.equals(query)) {
+            if (query.equals(name)) {
                 return r;
             }
         }
-        
-        return null;
+                return null;
     }
 }

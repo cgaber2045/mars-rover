@@ -46,7 +46,20 @@ public class RoverRunner
                     int n = input.readInt();
                     actor.rotate(n);
                 }
-                else if (command.equals("kill")) {
+                else if (command.equals("takePic")) {
+                    actor.takePic();
+                }
+                else if (command.equals("transmitPictures")) {
+                    actor.transmitPictures();
+                }
+                else if (command.equals("moveTo")) {
+                    System.out.print("Enter an x value: ");
+                    int x = input.readInt();
+                    System.out.print("Enter a y value: ");
+                    int y = input.readInt();
+                    actor.moveTo(x, y);
+                }
+                else if (command.equals("attack")) {
                     System.out.print("Enter the name the target rover: ");
                     String targetName = input.readString();
                     
