@@ -16,6 +16,14 @@ public class RoverGroup {
         this.rovers = new ArrayList<Rover>();
     }
     
+    public void printList() {
+            System.out.print("Available Rovers: ");
+            for(int i = 0; i < rovers.size(); i++) {
+                System.out.print(rovers.get(i).getName() + " ");
+            }
+            System.out.println();
+    }
+    
     public void add(Rover rover) {
         rovers.add(rover);
     }

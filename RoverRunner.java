@@ -5,6 +5,9 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+
+import java.util.Arrays;
+
 public class RoverRunner
 {
     public static void main(String[] args)
@@ -13,7 +16,7 @@ public class RoverRunner
         
         Rover r1 = new Rover("Curiosity");
         Rover r2 = new Rover("Spirit");
-        Rover r3 = new Rover();
+        Rover r3 = new Rover("DaTingGoes");
         
         RoverGroup group = new RoverGroup();
         group.add(r1);
@@ -25,6 +28,7 @@ public class RoverRunner
         
         while (running) {
             // Input name
+            group.printList();
             System.out.print("Enter the name of the Rover to act: ");
             String name = input.readString();
             
@@ -33,6 +37,10 @@ public class RoverRunner
             
             if (actor != null) {
                 // If the rover is found
+                String[] commandArray = {"move", "rotate", "takePic", "transmitPics",
+                "moveTo", "attack"};
+                System.out.println("\n" + Arrays.toString(commandArray));
+            
                 System.out.print("Enter a command: ");
                 String command = input.readString();
                 
@@ -49,7 +57,7 @@ public class RoverRunner
                 else if (command.equals("takePic")) {
                     actor.takePic();
                 }
-                else if (command.equals("transmitPictures")) {
+                else if (command.equals("transmitPics")) {
                     actor.transmitPictures();
                 }
                 else if (command.equals("moveTo")) {
