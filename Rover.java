@@ -55,16 +55,9 @@ public class Rover
         this.hasPower = true;
     }
     
-    // methods - stuff the Rover can do
-    /*
-    public void scanner() {
-        Scanner input=new Scanner(System.in);
-        while (!input.equals("quit")) {
-            input = input.nextLine();
-        }
-    }
-    */
+    //Methods
     
+    //Method to round decimals accurately (used in pythagorean math)
     private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
      
@@ -271,6 +264,7 @@ public class Rover
         return name;
     }
     
+    // To String
     public String toString() {
         return "Rover[Name: " + name + ", x: " + round(x, 2) + ", y: " + round(y, 2) + ", dir: " + dir + ", picsTaken: " +  numPics + ", isAlive: " + isAlive + 
         "]\n [Health: " + health + "/" + (100+(10*level)) + " Level: " + level + " Exp: " + exp + "/" + (level * 100 + 100) + " Energy: " + energy + "/" + (100+(10*level)) + "]\n";

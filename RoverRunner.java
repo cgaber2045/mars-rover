@@ -19,6 +19,7 @@ public class RoverRunner
         Rover r3 = new Rover("DaTingGoes");
         
         RoverGroup group = new RoverGroup();
+        
         group.add(r1);
         group.add(r2);
         group.add(r3);
@@ -38,7 +39,7 @@ public class RoverRunner
             if (actor != null) {
                 // If the rover is found
                 String[] commandArray = {"move", "rotate", "takePic", "transmitPics",
-                "moveTo", "attack"};
+                "moveTo", "attack", "goHome", "charge", "teleport", "setName"};
                 System.out.println("\n" + Arrays.toString(commandArray));
             
                 System.out.print("Enter a command: ");
@@ -53,6 +54,26 @@ public class RoverRunner
                     System.out.print("Enter amount to rotate, (-) for opposite: ");
                     int n = input.readInt();
                     actor.rotate(n);
+                }
+                else if (command.equals("goHome")) {
+                    actor.goHome();
+                }
+                else if (command.equals("setName")) {
+                    System.out.print("Enter new name of rover: ");
+                    String n = input.readString();
+                    actor.setName(n);
+                }
+                else if (command.equals("charge")) {
+                    System.out.print("Enter amount to charge: ");
+                    int n = input.readInt();
+                    actor.charge(n);
+                }
+                else if (command.equals("teleport")) {
+                    System.out.print("Enter an x value: ");
+                    int x = input.readInt();
+                    System.out.print("Enter a y value: ");
+                    int y = input.readInt();
+                    actor.teleport(x, y);
                 }
                 else if (command.equals("takePic")) {
                     actor.takePic();
