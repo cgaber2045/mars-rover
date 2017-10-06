@@ -22,7 +22,6 @@ public class Rover
     private String nesw;
     private boolean isAlive;
     private boolean hasPower;
-    private double root = Math.sqrt(2);
     private int health;
     private int maxhealth;
     private int damage;
@@ -32,9 +31,6 @@ public class Rover
     
     // constructor(s)
     public Rover() {
-        this.x = 0;
-        this.y = 0;
-        this.dir = 0;
         this.isAlive = true; 
         this.health = 100;
         this.damage = 10;
@@ -45,9 +41,6 @@ public class Rover
     public Rover(String name)
     {
         this.name = name;
-        this.x = 0;
-        this.y = 0;
-        this.dir = 0;
         this.isAlive = true;
         this.health = 100;
         this.damage = 10;
@@ -141,6 +134,7 @@ public class Rover
     }
     
     public void move(double n) {
+        double root = Math.sqrt(2);
         if(hasPower) {
             if(isAlive) {
                 spendEnergy();

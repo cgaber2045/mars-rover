@@ -39,7 +39,7 @@ public class RoverRunner
             if (actor != null) {
                 // If the rover is found
                 String[] commandArray = {"move", "rotate", "takePic", "transmitPics",
-                "moveTo", "attack", "goHome", "charge", "teleport", "setName"};
+                "moveTo", "attack", "goHome", "charge", "teleport", "setName", "quit"};
                 System.out.println("\n" + Arrays.toString(commandArray));
             
                 System.out.print("Enter a command: ");
@@ -49,6 +49,9 @@ public class RoverRunner
                     System.out.print("Enter distance to move: ");
                     int distance = input.readInt();
                     actor.move(distance);
+                }
+                else if (command.equals(exitCommand)) {
+                    running = false;
                 }
                 else if (command.equals("rotate")) {
                     System.out.print("Enter amount to rotate, (-) for opposite: ");
