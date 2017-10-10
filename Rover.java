@@ -19,7 +19,6 @@ public class Rover
     private double x;
     private double y;
     private int dir; // 0=North, 1=East, 2=South, 3=West
-    private String nesw;
     private boolean isAlive;
     private boolean hasPower;
     private int health;
@@ -28,6 +27,7 @@ public class Rover
     private int level;
     private int exp;
     private int energy;
+    private int maxPics = 5;
     
     // constructor(s)
     public Rover() {
@@ -88,7 +88,9 @@ public class Rover
             energy += amps;
             System.out.println(name + " is charging for " + amps + " power!");
             levelUp(2*amps);
-        } else System.out.println(name + " cannot charge past their limit of " + (100+(10*level)));
+        } else {
+            System.out.println(name + " cannot charge past their limit of " + (100+(10*level)));
+        }
     }
     
     public void levelUp(int xp) {      
@@ -106,7 +108,7 @@ public class Rover
     }
     }
     
-    public void health() {
+    public void checkHealth() {
         if (this.health <= 0) {
            this.health = 0;
            this.isAlive = false; 
@@ -117,9 +119,9 @@ public class Rover
     public void takePic() {
         if(hasPower) {
             if(isAlive) {
-                if (numPics <= 5) {
+                if (numPics <= maxPics) {
                 this.numPics++;
-                System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + nesw + ".");
+                System.out.println(name + " took a picture at " + "[" + x + ", " + y + "] facing " + setDirectionName() + ".");
                 levelUp(100);
                 } else  System.out.println(name + " has reached the picture limit!");
             } else {
@@ -174,12 +176,11 @@ public class Rover
                     x -= n*root;
                     y += n*root;
                 }
-                getDirectionName();
                 levelUp(100);
                 if (dir % 2 == 0) {
-                System.out.println(name + " moved " + n + " units in direction " + nesw + ".");
+                System.out.println(name + " moved " + n + " units in direction " + setDirectionName() + ".");
                 } else 
-                    System.out.println(name + " moved " + (Double.toString(n*root)).substring(0,5) + " units in direction " + nesw + ".");
+                    System.out.println(name + " moved " + (Double.toString(n*root)).substring(0,5) + " units in direction " + setDirectionName() + ".");
                 } 
             else 
             {
@@ -188,9 +189,9 @@ public class Rover
         } else System.out.println(this.name + " has no power!");
     }
     
-    private void getDirectionName() {
+    private String setDirectionName() {
         String[] directionArray = {"North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest"};
-        this.nesw = directionArray[this.dir];
+        return directionArray[this.dir];
     }
     
     public void rotate(int n) {
@@ -200,35 +201,32 @@ public class Rover
                 spendEnergy();
                 if (this.dir >= 8) {
                     this.dir = (dir % 8);
-                    getDirectionName();
-                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + setDirectionName() + "."); 
                 } else if (this.dir < 0) {
                     this.dir = 8 - (Math.abs(dir) % 8);
-                    getDirectionName();
-                    System.out.println(name + " turned to the left " + Math.abs(n) + " to face " + nesw + "."); 
+                    System.out.println(name + " turned to the left " + Math.abs(n) + " to face " + setDirectionName() + "."); 
                 } else {
-                    getDirectionName();
-                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + nesw + "."); 
+                    System.out.println(name + " turned to the right " + Math.abs(n) + " to face " + setDirectionName() + "."); 
                 }
                 levelUp(100); 
             }
             else {
                 System.out.println("ERROR: " + name + " cannot rotate while dead!");
             }
-    } else System.out.println(this.name + " has no power!");
+        } else System.out.println(this.name + " has no power!");
     }
     
     public void teleport (int x, int y) {
         spendEnergy();
         if(hasPower) {
             if(isAlive) {
-            this.x = x;
-            this.y = y;
-            System.out.println(name + " has teleported to " + x + ", " + y + ".");
-            levelUp(200);
-            spendEnergy();
+                this.x = x;
+                this.y = y;
+                System.out.println(name + " has teleported to " + x + ", " + y + ".");
+                levelUp(200);
+                spendEnergy();
             } else {
-            System.out.println("ERROR: " + name + " cannot teleport while dead!");    
+                System.out.println("ERROR: " + name + " cannot teleport while dead!");    
             }
         } else System.out.println(this.name + " has no power!");
     }
@@ -243,8 +241,8 @@ public class Rover
                 other.health -= this.damage;
                 System.out.println(this.name + " has attacked " + other.name + " for " + damage + 
                 " damage.\n >" + other.name + " current health: " + other.health);
-                health();
-                other.health();
+                checkHealth();
+                other.checkHealth();
                 this.levelUp(10 * damage); 
             }
             else {
